@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Map with jsVectorMap</title>
+    <link href="{% static 'vendors/jsvectormap/css/jsvectormap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/products/css/base.css' %}">
+</head>
+<body>
+    
+    <!-- Bootstrap Topbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom sticky-top">
+        <div class="container-fluid">
+            <!-- Кнопка для открытия меню (заменили на вашу SVG) -->
+            <button class="btn btn-link" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu">
+                <img src="{% static 'img/list.svg' %}" alt="Menu" width="30" class="d-inline-block align-text-top">
+            </button>
+            
+            <div class="d-flex align-items-center ms-auto">
+                <span class="navbar-brand navbar-brand-custom me-2">ЕГС РАН</span>
+                <img src="{% static 'img/logo.jpg' %}" alt="Logo" width="60" class="d-inline-block align-text-top">
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasMenuLabel">Меню</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group">
+                <div class="accordion" id="accordionExample">
+                        <!-- 1-й элемент акордиона(скачивание) -->
+                      <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Скачать файлы
+                                </button>
+                            </h2>
+                            <!-- Внутрянка выпадающего меню -->
+                            <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Dropdown button
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <ul class="list-group">
+                                                <ul class="list-group list-group-horizontal">
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">ARTU</label>
+                                                    </div>
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">ARTI</label>
+                                                    </div>
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">LOVJ</label>
+                                                    </div>
+                                                </ul>
+                                                <ul class="list-group list-group-horizontal-sm">
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">Тыкни</label>
+                                                    </div>
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                                    </div>
+                                                    <div class="mb-3 form-check">
+                                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                                                    </div>
+                                                </ul>
+                                            </ul>
+                                            
+                                        </ul>
+                                        <li>Начало</li>
+                                        <div class="date-picker-container ms-auto me-3">
+                                            <input type="date" id="startDate" class="form-control date-picker">
+                                        </div>
+                                        <li>Конец</li>
+                                        <div class="date-picker-container ms-auto me-3">
+                                            <input type="date" id="endDate" class="form-control date-picker">
+                                        </div>
+                                        <input type="hidden" id="csrf_token" value="{% csrf_token %}">
+                                        <button type="button" id="generateLinkBtn" class="btn btn-primary">Сформировать ссылку для скачивания</button>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </ul>
+        </div>
+    </div>
+        
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="map-container shadow map-overlay">
+                    <div id="world-map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'vendors/jsvectormap/js/jsvectormap.min.js' %}"></script>
+    <script src="{% static 'vendors/jsvectormap/maps/world.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/products/js/base.js' %}"></script>
+</body>
+</html>
