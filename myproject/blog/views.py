@@ -4,7 +4,8 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 import os
-import zipfile
+#import zipfile
+import tarfile
 from django.conf import settings
 from .models import File
 
@@ -61,10 +62,10 @@ def generate_download_link(request):
                 )
 
             # Создаем архив
-            zip_filename = f'files_{start_date}_{end_date}.zip'
-            zip_path = os.path.join('C:\\Work', settings.MEDIA_ROOT.strip('/\\'), zip_filename)
+            tar_filename = f'files_{start_date}_{end_date}.tar'
+            tar_path = os.path.join('C:\\Work', settings.MEDIA_ROOT.strip('/\\'), tar_filename)
             
-            with zipfile.ZipFile(zip_path, 'w') as zipf:
+            with tarfile.open(tar_path, 'w') as tar:
                 for file in files:
                     # Формируем полный путь к файлу
                     unix_path = file.path.strip()  # Путь из БД в Unix-формате
@@ -81,10 +82,10 @@ def generate_download_link(request):
                     full_file_path = os.path.normpath(full_file_path)
                     
                     if os.path.exists(full_file_path):
-                        zipf.write(full_file_path, os.path.basename(file.filename))
+                        tar.add(full_file_path, os.path.basename(file.filename))
 
             # Проверяем архив
-            if not os.path.exists(zip_path) or os.path.getsize(zip_path) == 0:
+            if not os.path.exists(tar_path) or os.path.getsize(tar_path) == 0:
                 return JsonResponse(
                     {'error': 'Не удалось создать архив'},
                     status=500
@@ -92,7 +93,7 @@ def generate_download_link(request):
 
             return JsonResponse({
                 'success': True,
-                'download_url': f"/media/{zip_filename}",
+                'download_url': f"/media/{tar_filename}",
                 'file_count': files.count()
             })
 
